@@ -31,13 +31,13 @@ pipeline {
 	stage('Push') {
             steps {
                 script{
-                    docker.withRegistry('https://061051222978.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
+                    docker.withRegistry('https://061051222978.dkr.ecr.us-west-2.amazonaws.com/asg', 'ecr:us-west-2:aws-credentials') {
                     app.push("latest")
                     }
                 }
             }
     	}
-	   
+
 	stage('Kubernetes Deployment of ASG Bugg Web Application') {
 	   steps {
 	      withKubeConfig([credentialsId: 'kubelogin']) {
@@ -60,6 +60,6 @@ pipeline {
 				archiveArtifacts artifacts: 'zap_report.html'
 		    }
 	     }
-       } 
+       }	    
   }
-}
+} 
